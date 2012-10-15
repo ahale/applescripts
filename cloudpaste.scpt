@@ -11,7 +11,9 @@ do shell script "curl -D " & authfile & " -H '" & username & "' -H '" & authpass
 set token to do shell script "grep ^X-Auth-Token " & authfile
 set storageapi to do shell script "awk '/^X-Storage-Url/{print $2}' " & authfile
 set cdnapi to do shell script "awk '/^X-CDN-Management-Url/{print $2}' " & authfile
-set cdnurl to do shell script "curl -sD - -X HEAD -H '" & token & "' " & cdnapi & "/" & container & " | awk '/^X-CDN-URI/{print $2}'"
+# uncomment this to use long default urls or set a cname alias
+# set cdnurl to do shell script "curl -sD - -X HEAD -H '" & token & "' " & cdnapi & "/" & container & " | awk '/^X-Cdn-Uri/{print $2}'"
+set cdnurl to "http://alias.domain.com"
 do shell script "curl -s -XPUT -H '" & token & "' -H 'Content-Type: image/jpeg' -T '" & tmpfile & "' " & storageapi & "/" & container & "/" & filename & ".jpg"
 tell application "Finder" to set the clipboard to cdnurl & "/" & filename & ".jpg"
 do shell script "rm -f " & tmpfile
