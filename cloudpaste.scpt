@@ -2,8 +2,7 @@ set username to "X-Auth-User: CLOUD_USER"
 set authpass to "X-Auth-Key: CLOUD_KEY"
 set authurl to "https://lon.auth.api.rackspacecloud.com/v1.0"
 set container to "dropbox"
-set datestamp to do shell script "date +%s"
-set tmpfile to do shell script "echo '/tmp/'$(date +%s)"
+set tmpfile to do shell script "echo '/tmp/'$(uuidgen | tr [:alpha:] [:lower:])"
 set filename to do shell script "basename " & tmpfile
 do shell script "screencapture -tjpg -s " & tmpfile
 set authfile to do shell script "mktemp /tmp/authXXXXXXXX"
